@@ -216,6 +216,13 @@ a {
   transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
+.dbHeroCard {
+  background-position: center;
+  background-size: cover;
+  color: inherit;
+  text-decoration: none;
+}
+
 .heroCard::before,
 .heroCard::after {
   content: "";
@@ -226,6 +233,10 @@ a {
 
 .heroCard::after {
   background: linear-gradient(180deg, transparent 49%, rgba(0, 0, 0, 0.62) 72%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+.dbHeroCard::after {
+  background: none;
 }
 
 .heroCard:hover,
