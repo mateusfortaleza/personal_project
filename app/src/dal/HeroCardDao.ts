@@ -15,11 +15,6 @@ function getDb() {
 }
 
 export default class HeroCardsDao {
-  public async getHeroCards() {
-    const getTable = await getDb().select().from(heroCardTable);
-    return getTable;
-  }
-
   public async getHeroCardsWithoutId() {
     return getDb()
       .select({

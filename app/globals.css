@@ -217,10 +217,25 @@ a {
 }
 
 .dbHeroCard {
-  background-position: center;
-  background-size: cover;
   color: inherit;
   text-decoration: none;
+}
+
+.heroImage {
+  z-index: -2;
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    transparent 42%,
+    color-mix(in srgb, var(--hero-overlay-color) 80%, transparent) 74%,
+    var(--hero-overlay-color) 100%
+  );
 }
 
 .heroCard::before,

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Sidebar from "./Sidebar";
 import HeroCardsDao from "./src/dal/HeroCardDao";
 
@@ -5,11 +6,19 @@ export const dynamic = "force-dynamic";
 
 function HeroCard({ story }) {
   const cardStyle = {
-    backgroundImage: `linear-gradient(180deg, transparent 42%, ${story.overlay_color}cc 74%, ${story.overlay_color} 100%), url("${story.background_image}")`,
+    "--hero-overlay-color": story.overlay_color,
   };
 
   return (
     <a className="heroCard dbHeroCard" href={story.link} style={cardStyle}>
+      <Image
+        src={story.background_image}
+        alt="Background image of the hero card"
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1180px) 50vw, 25vw"
+        className="heroImage"
+      />
+      <span className="heroOverlay" aria-hidden="true" />
       <h2>{story.title}</h2>
     </a>
   );
