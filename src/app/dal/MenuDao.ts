@@ -22,7 +22,7 @@ export default class MenuDao {
     return getDb()
       .select({
         id: menu.id,
-        icon: menu.icon,
+        icon: menu.svgUrl,
         text: menu.menuText,
         link: menu.menuLink,
       })

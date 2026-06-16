@@ -1,36 +1,55 @@
-import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/neon-http';
-import { and, eq } from 'drizzle-orm';
-import { heroCard, heroCardFields } from '../db/schema';
+import "dotenv/config";
 
-const databaseUrl = process.env.DATABASE_URL;
-let db: ReturnType<typeof drizzle> | null = null;
+type CmsHeroCard = {
+  id: number;
+  contentTypeId: string;
+  fields: {
+    Title?: string;
+    Image?: string;
+    Color?: string;
+    Link?: string;
+  };
+};
 
-function getDb() {
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not set. Add it to .env before querying hero cards.");
-  }
-
-  db ??= drizzle(databaseUrl);
-  return db;
-}
+type CmsResponse = {
+  content?: CmsHeroCard[];
+};
 
 export default class HeroCardsDao {
-  public async getHeroCardsWithoutId(languageCode: string) {
-    return getDb()
-      .select({
-        background_image: heroCardFields.backgroundImage,
-        overlay_color: heroCardFields.overlayColor,
-        title: heroCardFields.title,
-        link: heroCardFields.link,
-      })
-      .from(heroCardFields)
-      .innerJoin(heroCard, eq(heroCardFields.heroCardId, heroCard.id))
-      .where(
-        and(
-          eq(heroCard.isHeroCardDeleted, false),
-          eq(heroCardFields.languageId, languageCode),
-        ),
+  public async getHeroCardsWithoutId(_languageCode: string) {
+    const token = process.env.CONTENT_API_KEY;
+
+    if (!token) {
+      throw new Error(
+        "CONTENT_API_KEY is not set. Add it to .env before querying hero cards.",
       );
+    }
+
+    const response = await fetch(
+      "https://basic-cms-blackstar-citadel.vercel.app/api/content",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        next: { revalidate: 60 },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch hero cards: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = (await response.json()) as CmsResponse;
+
+    return (data.content ?? [])
+      .filter((item) => item.contentTypeId === "hero_card")
+      .map((item) => ({
+        background_image: item.fields.Image ?? "",
+        overlay_color: item.fields.Color ?? "#111111",
+        title: item.fields.Title ?? "",
+        link: item.fields.Link ?? "#",
+      }));
   }
 }

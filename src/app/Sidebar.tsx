@@ -9,9 +9,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import SvgIcon from "@mui/material/SvgIcon";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -177,8 +177,15 @@ export default function Sidebar({
                   },
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 17, width: 17, color: "inherit" }}>
-                  <MenuGlyph path={item.icon} active={index === 0} />
+                <ListItemIcon sx={{ minWidth: 17, width: 17 }}>
+                  <Image
+                    src={item.icon}
+                    alt=""
+                    width={17}
+                    height={17}
+                    unoptimized
+                    style={{ objectFit: "contain" }}
+                  />
                 </ListItemIcon>
                 <ListItemText
                   primary={item.text}
@@ -221,20 +228,5 @@ export default function Sidebar({
         </Select>
       </Box>
     </Drawer>
-  );
-}
-
-function MenuGlyph({ path, active }: { path: string; active: boolean }) {
-  return (
-    <SvgIcon
-      viewBox="0 0 24 24"
-      sx={{
-        width: 17,
-        height: 17,
-        color: active ? "#4b5568" : "#495265",
-      }}
-    >
-      <path d={path} />
-    </SvgIcon>
   );
 }

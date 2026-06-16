@@ -57,27 +57,21 @@ function HeroCard({ story }: { story: HeroCardStory }) {
           }}
         />
       ) : null}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          background: `linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.16) 42%, ${story.overlay_color} 100%)`,
-        }}
-      />
       <Typography
         component="h2"
         sx={{
           position: "relative",
           zIndex: 2,
           m: 0,
+          width: "100%",
           px: 2.875,
-          pb: 3.125,
+          pt: 3,
+          pb: 2.5,
+          backgroundColor: story.overlay_color,
           color: "white",
           fontSize: 20,
-          lineHeight: 1.2,
-          fontWeight: 800,
+          lineHeight: 1.18,
+          fontWeight: 900,
           textShadow: "0 2px 10px rgba(0, 0, 0, 0.32)",
         }}
       >
