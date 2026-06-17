@@ -26,7 +26,7 @@ export default class HeroCardsDao {
     }
 
     const response = await fetch(
-      "https://basic-cms-blackstar-citadel.vercel.app/api/content",
+      "https://basic-cms-blackstar-citadel.vercel.app/api/herocard",
       {
         headers: {
           Authorization: `Bearer ${token}`,
